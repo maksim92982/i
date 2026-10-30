@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maksim Aleksandrov | AI Systems Engineer</title>
+    <meta name="description" content="Максим Александров — автоматизация процессов, Telegram-боты, ИИ-помощники и контентные системы для малого бизнеса.">
+    <meta property="og:title" content="Максим Александров — автоматизация и ИИ для бизнеса">
+    <meta property="og:description" content="Настраиваю ботов, ИИ-помощников, оплату, контент и серверы — от идеи до работающего результата.">
+    <meta property="og:type" content="website">
+    <title>Максим Александров — автоматизация и ИИ для бизнеса</title>
     
     <!-- Подключаем AOS (Animate On Scroll) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -140,6 +144,202 @@
     </style>
 </head>
 <body>
+    <style>
+        /* Новая версия страницы. Старый макет оставлен в файле только как резерв до проверки. */
+        body > :not(#maksim-portfolio) { display: none !important; }
+        #maksim-portfolio {
+            display: block !important;
+            min-height: 100vh;
+            color: #172033;
+            background: #f6f8fc;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.55;
+        }
+        #maksim-portfolio * { box-sizing: border-box; }
+        #maksim-portfolio a { color: inherit; }
+        .mp-wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+        .mp-nav { position: sticky; top: 0; z-index: 5; border-bottom: 1px solid #e5e9f2; background: rgba(255,255,255,.94); backdrop-filter: blur(12px); }
+        .mp-nav-inner { display: flex; justify-content: space-between; align-items: center; min-height: 70px; gap: 20px; }
+        .mp-brand { font-weight: 800; text-decoration: none; letter-spacing: -.02em; }
+        .mp-brand small { color: #5e6a80; font-weight: 600; }
+        .mp-nav-links { display: flex; align-items: center; gap: 22px; font-size: .94rem; }
+        .mp-nav-links a { text-decoration: none; color: #4b5870; }
+        .mp-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 19px; border: 1px solid #315ee8; border-radius: 11px; background: #315ee8; color: #fff !important; text-decoration: none; font-weight: 700; transition: .2s ease; }
+        .mp-button:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(49,94,232,.24); }
+        .mp-button--light { background: #fff; color: #2449bd !important; }
+        .mp-hero { padding: 92px 0 74px; background: radial-gradient(circle at 88% 10%, #dce9ff 0, rgba(220,233,255,0) 32%), linear-gradient(135deg, #f8fbff 0%, #eaf1ff 100%); }
+        .mp-kicker { display: inline-block; padding: 7px 11px; border-radius: 999px; color: #315ee8; background: #e5edff; font-weight: 800; font-size: .84rem; }
+        .mp-hero-grid { display: grid; grid-template-columns: 1.4fr .8fr; gap: 56px; align-items: center; }
+        .mp-hero h1 { margin: 16px 0 18px; max-width: 760px; font-size: clamp(2.25rem, 5vw, 4.5rem); line-height: 1.02; letter-spacing: -.055em; }
+        .mp-hero p { max-width: 670px; margin: 0; color: #47546a; font-size: clamp(1.05rem, 2vw, 1.26rem); }
+        .mp-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+        .mp-note { margin-top: 16px; color: #68758a; font-size: .9rem; }
+        .mp-card { padding: 28px; border: 1px solid #dbe3f4; border-radius: 22px; background: #fff; box-shadow: 0 18px 50px rgba(33,62,120,.1); }
+        .mp-card h2 { margin: 0 0 16px; font-size: 1.15rem; }
+        .mp-card ol { margin: 0; padding-left: 20px; color: #4d5b71; }
+        .mp-card li + li { margin-top: 10px; }
+        .mp-section { padding: 82px 0; }
+        .mp-section--white { background: #fff; }
+        .mp-heading { max-width: 720px; margin-bottom: 34px; }
+        .mp-heading h2 { margin: 0 0 12px; font-size: clamp(1.7rem, 3vw, 2.55rem); letter-spacing: -.035em; }
+        .mp-heading p { margin: 0; color: #5d6980; font-size: 1.05rem; }
+        .mp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .mp-service, .mp-case { padding: 24px; border: 1px solid #e1e6f0; border-radius: 17px; background: #fff; }
+        .mp-service b, .mp-case h3 { display: block; margin: 0 0 9px; font-size: 1.08rem; }
+        .mp-service p, .mp-case p { margin: 0; color: #59667b; }
+        .mp-icon { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 16px; border-radius: 12px; background: #eaf0ff; font-size: 1.3rem; }
+        .mp-case { display: flex; flex-direction: column; }
+        .mp-case-tag { display: inline-block; align-self: flex-start; margin-bottom: 14px; padding: 5px 9px; border-radius: 7px; color: #315ee8; background: #eaf0ff; font-size: .78rem; font-weight: 800; }
+        .mp-case ul { margin: 15px 0 0; padding-left: 19px; color: #526076; }
+        .mp-case li + li { margin-top: 7px; }
+        .mp-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+        .mp-step { padding: 18px; border-top: 3px solid #315ee8; background: #f2f6ff; border-radius: 0 0 14px 14px; }
+        .mp-step span { display: block; margin-bottom: 8px; color: #315ee8; font-size: .82rem; font-weight: 800; }
+        .mp-step b { font-size: 1rem; }
+        .mp-about { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+        .mp-about p { color: #56637a; font-size: 1.05rem; }
+        .mp-facts { display: grid; gap: 12px; }
+        .mp-fact { padding: 18px; border-left: 3px solid #315ee8; border-radius: 0 12px 12px 0; background: #f2f6ff; }
+        .mp-fact b { display: block; margin-bottom: 4px; }
+        .mp-cta { padding: 62px 0; color: #fff; background: #15244d; }
+        .mp-cta h2 { margin: 0 0 12px; font-size: clamp(1.7rem, 3vw, 2.5rem); letter-spacing: -.035em; }
+        .mp-cta p { max-width: 700px; margin: 0 0 24px; color: #cfdbfa; font-size: 1.07rem; }
+        .mp-footer { padding: 27px 0; color: #71809a; background: #0f1a37; font-size: .9rem; }
+        .mp-footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+        @media (max-width: 820px) {
+            .mp-hero-grid, .mp-about { grid-template-columns: 1fr; gap: 30px; }
+            .mp-grid { grid-template-columns: 1fr 1fr; }
+            .mp-steps { grid-template-columns: 1fr 1fr; }
+            .mp-hero { padding: 68px 0 56px; }
+        }
+        @media (max-width: 560px) {
+            .mp-wrap { width: min(100% - 28px, 1120px); }
+            .mp-nav-links a:not(.mp-button) { display: none; }
+            .mp-nav-inner { min-height: 62px; }
+            .mp-grid, .mp-steps { grid-template-columns: 1fr; }
+            .mp-section { padding: 60px 0; }
+            .mp-button { width: 100%; }
+        }
+    </style>
+    <main id="maksim-portfolio">
+        <nav class="mp-nav" aria-label="Основная навигация">
+            <div class="mp-wrap mp-nav-inner">
+                <a class="mp-brand" href="#top">Максим Александров <small>· AI и автоматизация</small></a>
+                <div class="mp-nav-links">
+                    <a href="#services">Услуги</a>
+                    <a href="#cases">Примеры</a>
+                    <a href="#contact" class="mp-button">Обсудить задачу</a>
+                </div>
+            </div>
+        </nav>
+
+        <section class="mp-hero" id="top">
+            <div class="mp-wrap mp-hero-grid">
+                <div>
+                    <span class="mp-kicker">Автоматизация для малого бизнеса и экспертов</span>
+                    <h1>Помогаю убрать рутину с помощью ИИ и ботов</h1>
+                    <p>Настраиваю Telegram-ботов, оплату, ИИ-помощников, контентные процессы и серверную часть — от понятной идеи до работающего решения.</p>
+                    <div class="mp-actions">
+                        <a class="mp-button" href="https://t.me/Maksim_alex" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
+                        <a class="mp-button mp-button--light" href="#cases">Посмотреть примеры</a>
+                    </div>
+                    <div class="mp-note">Сначала разбираемся, нужна ли автоматизация вообще. Если нет — скажу честно.</div>
+                </div>
+                <aside class="mp-card">
+                    <h2>С чем можно прийти</h2>
+                    <ol>
+                        <li>«Люди постоянно задают одни и те же вопросы».</li>
+                        <li>«Хочу продавать услугу через бота».</li>
+                        <li>«Контент надо делать регулярно, но на него не хватает времени».</li>
+                        <li>«Есть идея сервиса, но непонятно, как её собрать».</li>
+                    </ol>
+                </aside>
+            </div>
+        </section>
+
+        <section class="mp-section mp-section--white" id="services">
+            <div class="mp-wrap">
+                <div class="mp-heading">
+                    <h2>Что могу настроить</h2>
+                    <p>Не продаю «нейросеть ради нейросети». Собираю конкретный процесс, который экономит время, даёт клиенту быстрый ответ или помогает продавать услугу.</p>
+                </div>
+                <div class="mp-grid">
+                    <article class="mp-service"><div class="mp-icon">🤖</div><b>Telegram-боты</b><p>Меню, анкеты, заявки, персональные результаты, уведомления и администрирование.</p></article>
+                    <article class="mp-service"><div class="mp-icon">💳</div><b>Оплата в боте</b><p>Платные услуги, проверка платежа и понятный путь пользователя после оплаты.</p></article>
+                    <article class="mp-service"><div class="mp-icon">✨</div><b>ИИ-помощники</b><p>Генерация ответов и материалов по вашим правилам, с ограничениями и проверками результата.</p></article>
+                    <article class="mp-service"><div class="mp-icon">📹</div><b>Контентный конвейер</b><p>Подготовка текста, видео и публикаций для соцсетей по вашему формату.</p></article>
+                    <article class="mp-service"><div class="mp-icon">🖥️</div><b>Сервер и запуск</b><p>Развёртывание проекта на VPS, домен, SSL, резервный доступ и инструкции.</p></article>
+                    <article class="mp-service"><div class="mp-icon">🧭</div><b>Разбор идеи</b><p>Помогу выбрать простой первый шаг, оценить риски и не тратить бюджет на лишнее.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="mp-section" id="cases">
+            <div class="mp-wrap">
+                <div class="mp-heading">
+                    <h2>Примеры того, что уже делаю</h2>
+                    <p>Это живые прикладные проекты. В каждом из них важна не только генерация текста, а весь путь пользователя и контроль качества результата.</p>
+                </div>
+                <div class="mp-grid">
+                    <article class="mp-case">
+                        <span class="mp-case-tag">Telegram-бот</span>
+                        <h3>Персональный разбор по анкете</h3>
+                        <p>Бот собирает данные пользователя, ведёт по шагам, формирует персональный ответ и разделяет бесплатный и платный сценарии.</p>
+                        <ul><li>пошаговый диалог без путаницы;</li><li>хранение статуса запроса;</li><li>готовность к подключению оплаты.</li></ul>
+                    </article>
+                    <article class="mp-case">
+                        <span class="mp-case-tag">Контент-пайплайн</span>
+                        <h3>Короткие уроки сербского</h3>
+                        <p>Процесс собирает проверенные жизненные фразы в вертикальные ролики, добавляет озвучку и отправляет их в выбранные каналы.</p>
+                        <ul><li>контроль повторов и качества фраз;</li><li>создание видео на локальном компьютере;</li><li>публикация в Telegram, Instagram и YouTube.</li></ul>
+                    </article>
+                    <article class="mp-case">
+                        <span class="mp-case-tag">Инфраструктура</span>
+                        <h3>Сервер для собственного сервиса</h3>
+                        <p>Помогаю перенести работающий проект на VPS: настроить запуск, домен и базовую устойчивость, чтобы сервис не зависел от одного компьютера.</p>
+                        <ul><li>развёртывание приложения;</li><li>домен и защищённое соединение;</li><li>простая инструкция владельцу.</li></ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="mp-section mp-section--white">
+            <div class="mp-wrap">
+                <div class="mp-heading"><h2>Как строится работа</h2><p>Без длинного технического ТЗ на старте. Сначала фиксируем задачу простыми словами и делаем самый полезный первый вариант.</p></div>
+                <div class="mp-steps">
+                    <div class="mp-step"><span>01</span><b>Созваниваемся или переписываемся о задаче</b></div>
+                    <div class="mp-step"><span>02</span><b>Определяем, что действительно нужно автоматизировать</b></div>
+                    <div class="mp-step"><span>03</span><b>Согласовываем первый понятный результат</b></div>
+                    <div class="mp-step"><span>04</span><b>Собираю, показываю и корректирую</b></div>
+                    <div class="mp-step"><span>05</span><b>Передаю доступы и объясняю, как пользоваться</b></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mp-section">
+            <div class="mp-wrap mp-about">
+                <div>
+                    <div class="mp-heading"><h2>Немного обо мне</h2></div>
+                    <p>Я Максим. Соединяю разработку, ИИ и автоматизацию в работающие сервисы. Мне интересны небольшие и понятные продукты, где результат можно проверить: бот ответил, платёж прошёл, заявка не потерялась, контент вышел вовремя.</p>
+                    <p>Технические детали беру на себя и объясняю обычным языком. Если задача требует другого специалиста, тоже скажу прямо.</p>
+                </div>
+                <div class="mp-facts">
+                    <div class="mp-fact"><b>Полный путь до запуска</b>Идея, логика, разработка, подключение сервисов и инструкция.</div>
+                    <div class="mp-fact"><b>Не привязываю к одному инструменту</b>Подбираю вариант под бюджет, скорость и реальную задачу.</div>
+                    <div class="mp-fact"><b>Сначала простое решение</b>Не усложняю систему там, где достаточно одного бота или формы.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mp-cta" id="contact">
+            <div class="mp-wrap">
+                <h2>Есть повторяющаяся задача или идея сервиса?</h2>
+                <p>Напишите в Telegram, что происходит сейчас и какой результат вы хотите. Я задам несколько вопросов и предложу реалистичный следующий шаг.</p>
+                <a class="mp-button mp-button--light" href="https://t.me/Maksim_alex" target="_blank" rel="noopener noreferrer">Написать Максиму в Telegram</a>
+            </div>
+        </section>
+        <footer class="mp-footer"><div class="mp-wrap mp-footer-inner"><span>© 2026 Максим Александров</span><span><a href="mailto:ma89spb@gmail.com">ma89spb@gmail.com</a> · <a href="https://wa.me/79533736073" target="_blank" rel="noopener noreferrer">WhatsApp</a></span></div></footer>
+    </main>
 
 <!-- Канвас для летающих символов -->
 <canvas id="bg-canvas"></canvas>
@@ -154,7 +354,7 @@
 <div class="container">
 
     <section class="card hero" data-aos="fade-up" data-aos-duration="800">
-        <h1>Maksim Aleksandrov</h1>
+        <div class="legacy-name">Maksim Aleksandrov</div>
         <h2 data-i18n="title">AI Systems Engineer | Local AI Pipelines • Full Stack (.NET, Vue, TypeScript)</h2>
         <div class="location">📍 <span data-i18n="location">Belgrade, Serbia · Remote / Hybrid</span></div>
         <div class="contact-links">
