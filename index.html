@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Максим Александров — автоматизация процессов, Telegram-боты, ИИ-помощники и контентные системы для малого бизнеса.">
+    <meta property="og:title" content="Максим Александров — автоматизация и ИИ для бизнеса">
+    <meta property="og:description" content="Настраиваю ботов, ИИ-помощников, оплату, контент и серверы — от идеи до работающего результата.">
+    <meta property="og:type" content="website">
+    <title>Максим Александров — автоматизация и ИИ для бизнеса</title>
+    
+    <!-- Подключаем AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #000000e6;
+            --text-muted: #00000099;
+            --accent-blue: #0a66c2;
+            --border-color: #e0dfdc;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- ФОН С ЛЕТАЮЩИМИ СИМВОЛАМИ --- */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Переключатель языков */
+        .lang-switch {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 4px;
+            padding: 0 10px;
+        }
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0,0,0,0.1); cursor: pointer;
+            font-size: 24px; padding: 4px 8px; border-radius: 8px;
+            opacity: 0.6; transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+        .lang-btn:hover { opacity: 1; transform: translateY(-2px); }
+        .lang-btn.active { opacity: 1; border-color: var(--accent-blue); background: rgba(255, 255, 255, 0.9); box-shadow: 0 4px 12px rgba(10,102,194,0.15); }
+
+        /* Карточки с эффектом стекла */
+        .card {
+            background: rgba(255, 255, 255, 0.25); 
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03), 0 0 0 1px rgba(0,0,0,0.05);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px); 
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .hero h2 { font-size: 18px; font-weight: 400; color: var(--text-muted); margin-bottom: 20px; }
+        
+        .contact-links {
+            display: flex; flex-wrap: wrap; gap: 12px; font-size: 14px; margin-bottom: 8px;
+        }
+        .contact-links a {
+            color: var(--accent-blue); text-decoration: none; font-weight: 600;
+            padding: 6px 12px; background: rgba(238, 243, 248, 0.6); border-radius: 20px;
+            transition: all 0.2s;
+        }
+        .contact-links a:hover { background: var(--accent-blue); color: white; text-decoration: none; }
+        .location { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; display: flex; align-items: center; gap: 6px;}
+
+        .section-title {
+            font-size: 22px; font-weight: 700; margin-bottom: 20px; 
+            border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .explanation {
+            background: rgba(248, 250, 252, 0.4);
+            border-left: 4px solid var(--accent-blue);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+        .explanation p { margin-bottom: 12px; }
+        .explanation p:last-child { margin-bottom: 0; }
+
+        .project { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px dashed rgba(0,0,0,0.15); }
+        .project:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        
+        .project h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;}
+        .project h3 a { 
+            font-size: 12px; color: var(--accent-blue); text-decoration: none; font-weight: 600; 
+            background: rgba(238, 243, 248, 0.6); padding: 4px 10px; border-radius: 12px; transition: all 0.2s;
+        }
+        .project h3 a:hover { background: var(--accent-blue); color: #fff; }
+        
+        .project-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;}
+        .project p { font-size: 15px; margin-bottom: 14px; }
+        .project ul { list-style-type: none; padding-left: 0; font-size: 14px; margin-bottom: 16px; }
+        .project li { margin-bottom: 10px; position: relative; padding-left: 20px; }
+        .project li::before {
+            content: "▹"; position: absolute; left: 0; color: var(--accent-blue); font-weight: bold;
+        }
+
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+        .tag {
+            background: rgba(255, 255, 255, 0.5); color: var(--text-muted); padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <style>
+        /* Новая версия страницы. Старый макет оставлен в файле только как резерв до проверки. */
+        body > :not(#maksim-portfolio) { display: none !important; }
+        #maksim-portfolio {
+            display: block !important;
+            min-height: 100vh;
+            color: #172033;
+            background: #f6f8fc;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.55;
+        }
+        #maksim-portfolio * { box-sizing: border-box; }
+        #maksim-portfolio a { color: inherit; }
+        .mp-wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+        .mp-nav { position: sticky; top: 0; z-index: 5; border-bottom: 1px solid #e5e9f2; background: rgba(255,255,255,.94); backdrop-filter: blur(12px); }
+        .mp-nav-inner { display: flex; justify-content: space-between; align-items: center; min-height: 70px; gap: 20px; }
+        .mp-brand { font-weight: 800; text-decoration: none; letter-spacing: -.02em; }
+        .mp-brand small { color: #5e6a80; font-weight: 600; }
+        .mp-nav-links { display: flex; align-items: center; gap: 22px; font-size: .94rem; }
+        .mp-nav-links a { text-decoration: none; color: #4b5870; }
+        .mp-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 19px; border: 1px solid #315ee8; border-radius: 11px; background: #315ee8; color: #fff !important; text-decoration: none; font-weight: 700; transition: .2s ease; }
+        .mp-button:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(49,94,232,.24); }
+        .mp-button--light { background: #fff; color: #2449bd !important; }
+        .mp-hero { padding: 92px 0 74px; background: radial-gradient(circle at 88% 10%, #dce9ff 0, rgba(220,233,255,0) 32%), linear-gradient(135deg, #f8fbff 0%, #eaf1ff 100%); }
+        .mp-kicker { display: inline-block; padding: 7px 11px; border-radius: 999px; color: #315ee8; background: #e5edff; font-weight: 800; font-size: .84rem; }
+        .mp-hero-grid { display: grid; grid-template-columns: 1.4fr .8fr; gap: 56px; align-items: center; }
+        .mp-hero h1 { margin: 16px 0 18px; max-width: 760px; font-size: clamp(2.25rem, 5vw, 4.5rem); line-height: 1.02; letter-spacing: -.055em; }
+        .mp-hero p { max-width: 670px; margin: 0; color: #47546a; font-size: clamp(1.05rem, 2vw, 1.26rem); }
+        .mp-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+        .mp-note { margin-top: 16px; color: #68758a; font-size: .9rem; }
+        .mp-card { padding: 28px; border: 1px solid #dbe3f4; border-radius: 22px; background: #fff; box-shadow: 0 18px 50px rgba(33,62,120,.1); }
+        .mp-card h2 { margin: 0 0 16px; font-size: 1.15rem; }
+        .mp-card ol { margin: 0; padding-left: 20px; color: #4d5b71; }
+        .mp-card li + li { margin-top: 10px; }
+        .mp-section { padding: 82px 0; }
+        .mp-section--white { background: #fff; }
+        .mp-heading { max-width: 720px; margin-bottom: 34px; }
+        .mp-heading h2 { margin: 0 0 12px; font-size: clamp(1.7rem, 3vw, 2.55rem); letter-spacing: -.035em; }
+        .mp-heading p { margin: 0; color: #5d6980; font-size: 1.05rem; }
+        .mp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .mp-service, .mp-case { padding: 24px; border: 1px solid #e1e6f0; border-radius: 17px; background: #fff; }
+        .mp-service b, .mp-case h3 { display: block; margin: 0 0 9px; font-size: 1.08rem; }
+        .mp-service p, .mp-case p { margin: 0; color: #59667b; }
+        .mp-icon { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 16px; border-radius: 12px; background: #eaf0ff; font-size: 1.3rem; }
+        .mp-case { display: flex; flex-direction: column; }
+        .mp-case-tag { display: inline-block; align-self: flex-start; margin-bottom: 14px; padding: 5px 9px; border-radius: 7px; color: #315ee8; background: #eaf0ff; font-size: .78rem; font-weight: 800; }
+        .mp-case ul { margin: 15px 0 0; padding-left: 19px; color: #526076; }
+        .mp-case li + li { margin-top: 7px; }
+        .mp-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+        .mp-step { padding: 18px; border-top: 3px solid #315ee8; background: #f2f6ff; border-radius: 0 0 14px 14px; }
+        .mp-step span { display: block; margin-bottom: 8px; color: #315ee8; font-size: .82rem; font-weight: 800; }
+        .mp-step b { font-size: 1rem; }
+        .mp-about { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+        .mp-about p { color: #56637a; font-size: 1.05rem; }
+        .mp-facts { display: grid; gap: 12px; }
+        .mp-fact { padding: 18px; border-left: 3px solid #315ee8; border-radius: 0 12px 12px 0; background: #f2f6ff; }
+        .mp-fact b { display: block; margin-bottom: 4px; }
+        .mp-cta { padding: 62px 0; color: #fff; background: #15244d; }
+        .mp-cta h2 { margin: 0 0 12px; font-size: clamp(1.7rem, 3vw, 2.5rem); letter-spacing: -.035em; }
+        .mp-cta p { max-width: 700px; margin: 0 0 24px; color: #cfdbfa; font-size: 1.07rem; }
+        .mp-footer { padding: 27px 0; color: #71809a; background: #0f1a37; font-size: .9rem; }
+        .mp-footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+        @media (max-width: 820px) {
+            .mp-hero-grid, .mp-about { grid-template-columns: 1fr; gap: 30px; }
+            .mp-grid { grid-template-columns: 1fr 1fr; }
+            .mp-steps { grid-template-columns: 1fr 1fr; }
+            .mp-hero { padding: 68px 0 56px; }
+        }
+        @media (max-width: 560px) {
+            .mp-wrap { width: min(100% - 28px, 1120px); }
+            .mp-nav-links a:not(.mp-button) { display: none; }
+            .mp-nav-inner { min-height: 62px; }
+            .mp-grid, .mp-steps { grid-template-columns: 1fr; }
+            .mp-section { padding: 60px 0; }
+            .mp-button { width: 100%; }
+        }
+    </style>
+    <main id="maksim-portfolio">
+        <nav class="mp-nav" aria-label="Основная навигация">
+            <div class="mp-wrap mp-nav-inner">
+                <a class="mp-brand" href="#top">Максим Александров <small>· AI и автоматизация</small></a>
+                <div class="mp-nav-links">
+                    <a href="#services">Услуги</a>
+                    <a href="#cases">Примеры</a>
+                    <a href="#contact" class="mp-button">Обсудить задачу</a>
+                </div>
+            </div>
+        </nav>
+
+        <section class="mp-hero" id="top">
+            <div class="mp-wrap mp-hero-grid">
+                <div>
+                    <span class="mp-kicker">Автоматизация для малого бизнеса и экспертов</span>
+                    <h1>Помогаю убрать рутину с помощью ИИ и ботов</h1>
+                    <p>Настраиваю Telegram-ботов, оплату, ИИ-помощников, контентные процессы и серверную часть — от понятной идеи до работающего решения.</p>
+                    <div class="mp-actions">
+                        <a class="mp-button" href="https://t.me/Maksim_alex" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
+                        <a class="mp-button mp-button--light" href="#cases">Посмотреть примеры</a>
+                    </div>
+                    <div class="mp-note">Сначала разбираемся, нужна ли автоматизация вообще. Если нет — скажу честно.</div>
+                </div>
+                <aside class="mp-card">
+                    <h2>С чем можно прийти</h2>
+                    <ol>
+                        <li>«Люди постоянно задают одни и те же вопросы».</li>
+                        <li>«Хочу продавать услугу через бота».</li>
+                        <li>«Контент надо делать регулярно, но на него не хватает времени».</li>
+                        <li>«Есть идея сервиса, но непонятно, как её собрать».</li>
+                    </ol>
+                </aside>
+            </div>
+        </section>
+
+        <section class="mp-section mp-section--white" id="services">
+            <div class="mp-wrap">
+                <div class="mp-heading">
+                    <h2>Что могу настроить</h2>
+                    <p>Не продаю «нейросеть ради нейросети». Собираю конкретный процесс, который экономит время, даёт клиенту быстрый ответ или помогает продавать услугу.</p>
+                </div>
+                <div class="mp-grid">
+                    <article class="mp-service"><div class="mp-icon">🤖</div><b>Telegram-боты</b><p>Меню, анкеты, заявки, персональные результаты, уведомления и администрирование.</p></article>
+                    <article class="mp-service"><div class="mp-icon">💳</div><b>Оплата в боте</b><p>Платные услуги, проверка платежа и понятный путь пользователя после оплаты.</p></article>
+                    <article class="mp-service"><div class="mp-icon">✨</div><b>ИИ-помощники</b><p>Генерация ответов и материалов по вашим правилам, с ограничениями и проверками результата.</p></article>
+                    <article class="mp-service"><div class="mp-icon">📹</div><b>Контентный конвейер</b><p>Подготовка текста, видео и публикаций для соцсетей по вашему формату.</p></article>
+                    <article class="mp-service"><div class="mp-icon">🖥️</div><b>Сервер и запуск</b><p>Развёртывание проекта на VPS, домен, SSL, резервный доступ и инструкции.</p></article>
+                    <article class="mp-service"><div class="mp-icon">🧭</div><b>Разбор идеи</b><p>Помогу выбрать простой первый шаг, оценить риски и не тратить бюджет на лишнее.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="mp-section" id="cases">
+            <div class="mp-wrap">
+                <div class="mp-heading">
+                    <h2>Примеры того, что уже делаю</h2>
+                    <p>Это живые прикладные проекты. В каждом из них важна не только генерация текста, а весь путь пользователя и контроль качества результата.</p>
+                </div>
+                <div class="mp-grid">
+                    <article class="mp-case">
+                        <span class="mp-case-tag">Telegram-бот</span>
+                        <h3>Персональный разбор по анкете</h3>
+                        <p>Бот собирает данные пользователя, ведёт по шагам, формирует персональный ответ и разделяет бесплатный и платный сценарии.</p>
+                        <ul><li>пошаговый диалог без путаницы;</li><li>хранение статуса запроса;</li><li>готовность к подключению оплаты.</li></ul>
+                    </article>
+                    <article class="mp-case">
+                        <span class="mp-case-tag">Контент-пайплайн</span>
+                        <h3>Короткие уроки сербского</h3>
+                        <p>Процесс собирает проверенные жизненные фразы в вертикальные ролики, добавляет озвучку и отправляет их в выбранные каналы.</p>
+                        <ul><li>контроль повторов и качества фраз;</li><li>создание видео на локальном компьютере;</li><li>публикация в Telegram, Instagram и YouTube.</li></ul>
+                    </article>
+                    <article class="mp-case">
+                        <span class="mp-case-tag">Инфраструктура</span>
+                        <h3>Сервер для собственного сервиса</h3>
+                        <p>Помогаю перенести работающий проект на VPS: настроить запуск, домен и базовую устойчивость, чтобы сервис не зависел от одного компьютера.</p>
+                        <ul><li>развёртывание приложения;</li><li>домен и защищённое соединение;</li><li>простая инструкция владельцу.</li></ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="mp-section mp-section--white">
+            <div class="mp-wrap">
+                <div class="mp-heading"><h2>Как строится работа</h2><p>Без длинного технического ТЗ на старте. Сначала фиксируем задачу простыми словами и делаем самый полезный первый вариант.</p></div>
+                <div class="mp-steps">
+                    <div class="mp-step"><span>01</span><b>Созваниваемся или переписываемся о задаче</b></div>
+                    <div class="mp-step"><span>02</span><b>Определяем, что действительно нужно автоматизировать</b></div>
+                    <div class="mp-step"><span>03</span><b>Согласовываем первый понятный результат</b></div>
+                    <div class="mp-step"><span>04</span><b>Собираю, показываю и корректирую</b></div>
+                    <div class="mp-step"><span>05</span><b>Передаю доступы и объясняю, как пользоваться</b></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mp-section">
+            <div class="mp-wrap mp-about">
+                <div>
+                    <div class="mp-heading"><h2>Немного обо мне</h2></div>
+                    <p>Я Максим. Соединяю разработку, ИИ и автоматизацию в работающие сервисы. Мне интересны небольшие и понятные продукты, где результат можно проверить: бот ответил, платёж прошёл, заявка не потерялась, контент вышел вовремя.</p>
+                    <p>Технические детали беру на себя и объясняю обычным языком. Если задача требует другого специалиста, тоже скажу прямо.</p>
+                </div>
+                <div class="mp-facts">
+                    <div class="mp-fact"><b>Полный путь до запуска</b>Идея, логика, разработка, подключение сервисов и инструкция.</div>
+                    <div class="mp-fact"><b>Не привязываю к одному инструменту</b>Подбираю вариант под бюджет, скорость и реальную задачу.</div>
+                    <div class="mp-fact"><b>Сначала простое решение</b>Не усложняю систему там, где достаточно одного бота или формы.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mp-cta" id="contact">
+            <div class="mp-wrap">
+                <h2>Есть повторяющаяся задача или идея сервиса?</h2>
+                <p>Напишите в Telegram, что происходит сейчас и какой результат вы хотите. Я задам несколько вопросов и предложу реалистичный следующий шаг.</p>
+                <a class="mp-button mp-button--light" href="https://t.me/Maksim_alex" target="_blank" rel="noopener noreferrer">Написать Максиму в Telegram</a>
+            </div>
+        </section>
+        <footer class="mp-footer"><div class="mp-wrap mp-footer-inner"><span>© 2026 Максим Александров</span><span><a href="mailto:ma89spb@gmail.com">ma89spb@gmail.com</a> · <a href="https://wa.me/79533736073" target="_blank" rel="noopener noreferrer">WhatsApp</a></span></div></footer>
+    </main>
+
+<!-- Канвас для летающих символов -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- Кнопки переключения языков (Русский теперь активен по умолчанию) -->
+<div class="lang-switch container" data-aos="fade-down" data-aos-duration="800">
+    <button class="lang-btn active" onclick="setLang('ru')" id="btn-ru" title="Русский">🇷🇺</button>
+    <button class="lang-btn" onclick="setLang('en')" id="btn-en" title="English">🇬🇧</button>
+    <button class="lang-btn" onclick="setLang('sr')" id="btn-sr" title="Srpski">🇷🇸</button>
+</div>
+
+<div class="container">
+
+    <section class="card hero" data-aos="fade-up" data-aos-duration="800">
+        <div class="legacy-name">Maksim Aleksandrov</div>
+        <h2 data-i18n="title">AI Systems Engineer | Local AI Pipelines • Full Stack (.NET, Vue, TypeScript)</h2>
+        <div class="location">📍 <span data-i18n="location">Belgrade, Serbia · Remote / Hybrid</span></div>
+        <div class="contact-links">
+            <a href="mailto:ma89spb@gmail.com">Email</a>
+            <a href="tel:+381621856383">+381 62 185 6383</a>
+            <a href="https://wa.me/79533736073" target="_blank">WhatsApp</a>
+            <a href="https://t.me/Maksim_alex" target="_blank">Telegram</a>
+            <a href="https://github.com/maksim92982/local-ai-content-pipeline" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/maksim-aleksandrov-4a6305124" target="_blank">LinkedIn</a>
+        </div>
+    </section>
+
+    <!-- Объяснение простыми словами -->
+    <section class="card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+        <h2 class="section-title" data-i18n="what-i-do-title">What I do (In simple words)</h2>
+        <div class="explanation">
+            <p data-i18n="explain-llm"><strong>What are LLMs and AI Agents?</strong> LLMs (Large Language Models like ChatGPT) are 'brains' that understand and generate text. AI Agents are these brains put on autopilot. An agent can read an instruction, make decisions, use tools, and execute tasks automatically — without you doing it manually every day.</p>
+            <p data-i18n="explain-services"><strong>How I can help your business:</strong> I build these agents to automate your routine. I can set up Telegram or Instagram bots for your customers, integrate payment systems (like YooKassa) so they buy directly in the chat, and automate the delivery of your services. I can also set up secure remote servers or teach you or your team how to use AI tools to save hours of work every day.</p>
+        </div>
+    </section>
+
+    <section class="card" data-aos="fade-up" data-aos-duration="800">
+        <h2 class="section-title" data-i18n="about-title">About</h2>
+        <p style="font-size: 15px; margin-bottom: 12px;" data-i18n="about-p1">
+            AI Systems Engineer with a full-stack background and production experience building local LLM-powered systems. I design, build, and operate autonomous AI pipelines that orchestrate multiple models with zero paid inference costs.
+        </p>
+        <p style="font-size: 15px;" data-i18n="about-p2">
+            Strong Python and TypeScript skills, with explicit engineering trade-offs around resource sharing, model interoperability, and fault tolerance. Complemented by 13 years of engineering leadership experience — breaking down complex work, designing architecture, and owning delivery.
+        </p>
+    </section>
+
+    <section class="card" data-aos="fade-up" data-aos-duration="800">
+        <h2 class="section-title" data-i18n="projects-title">Projects & Case Studies</h2>
+
+        <!-- Проект 1 (VPN) -->
+        <div class="project" data-aos="fade-up" data-aos-duration="800">
+            <h3>
+                Secure VPN Bot (WireGuard Infrastructure)
+                <a href="https://t.me/ProRUvpn_bot" target="_blank">Test the Bot ↗</a>
+            </h3>
+            <div class="project-meta" data-i18n="proj3-date">Oct 2026 – Present</div>
+            <p data-i18n="proj3-desc">Developed a Telegram bot for selling personal VPN subscriptions. The bot provides users with WireGuard keys for secure internet access with a Moscow IP address.</p>
+            <ul>
+                <li data-i18n="proj3-li1"><strong>Infrastructure & Architecture:</strong> Configured and deployed a VPS in Moscow, set up a WireGuard server, and automated the generation of client configuration files.</li>
+                <li data-i18n="proj3-li2"><strong>Business Value:</strong> Provides users outside Russia with legal access to Russian web services (government portals, banking apps) that restrict access from foreign IPs.</li>
+                <li data-i18n="proj3-li3"><strong>Integration:</strong> Connected Telegram bot with a payment gateway for instant subscription activation and key delivery.</li>
+            </ul>
+            <div class="tags">
+                <span class="tag">Linux</span>
+                <span class="tag">WireGuard</span>
+                <span class="tag">Python</span>
+                <span class="tag">VPS / Networking</span>
+                <span class="tag">Telegram Bot API</span>
+            </div>
+        </div>
+
+        <!-- Проект 2 (Астро) -->
+        <div class="project" data-aos="fade-up" data-aos-duration="800">
+            <h3>
+                AI Astrology & Numerology Bot
+                <a href="https://t.me/auto88997766bot" target="_blank">Test the Bot ↗</a>
+            </h3>
+            <div class="project-meta" data-i18n="proj1-date">Oct 2026 – Present</div>
+            <p data-i18n="proj1-desc">Built an end-to-end asynchronous Python bot that handles user state, free numerology funnels, and paid natal chart generation.</p>
+            <ul>
+                <li data-i18n="proj1-li1"><strong>Astronomy Engine:</strong> Calculated precise planetary positions, ASC/MC, and aspects locally using Skyfield. Rendered custom natal wheel images via Pillow ($0 API cost for visuals).</li>
+                <li data-i18n="proj1-li2"><strong>LLM Orchestration & Guardrails:</strong> Implemented a dual-LLM fallback system (Gemini → Ollama). Built a custom fact-injection pipeline to strictly control hallucinations. Added a secondary LLM call for proofreading.</li>
+                <li data-i18n="proj1-li3"><strong>Unit Economics:</strong> Achieved ~96% gross margin per generation by minimizing API token usage and optimizing local compute. Integrated YooKassa payment gateway.</li>
+            </ul>
+            <div class="tags">
+                <span class="tag">Python</span>
+                <span class="tag">Skyfield</span>
+                <span class="tag">Gemini API</span>
+                <span class="tag">Ollama</span>
+                <span class="tag">Guardrails</span>
+            </div>
+        </div>
+
+        <!-- Проект 3 (Видео) -->
+        <div class="project" data-aos="fade-up" data-aos-duration="800">
+            <h3>Autonomous Local AI Content Pipeline</h3>
+            <div class="project-meta" data-i18n="proj2-date">Sept 2026 – Present</div>
+            <p data-i18n="proj2-desc">Built and operate a fully local, production-grade AI content pipeline that generates and publishes video content autonomously — no paid inference, no cloud AI costs.</p>
+            <ul>
+                <li data-i18n="proj2-li1"><strong>Orchestration:</strong> Managed multiple local AI models (text, image, video) sharing a single machine with explicit CPU/GPU trade-offs.</li>
+                <li data-i18n="proj2-li2"><strong>Interoperability:</strong> Built a communication layer connecting independent models not designed to talk to each other.</li>
+                <li data-i18n="proj2-li3"><strong>Result:</strong> Sustained throughput of 15 Reels/hour, publishing up to 50 Reels/day to Instagram and 50 posts/day to Telegram, fully autonomous.</li>
+            </ul>
+            <div class="tags">
+                <span class="tag">Python</span>
+                <span class="tag">LLM Orchestration</span>
+                <span class="tag">FFmpeg</span>
+                <span class="tag">Docker</span>
+                <span class="tag">Linux</span>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- Подключаем AOS и пишем скрипт анимации фона -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Инициализация AOS
+    AOS.init({ once: true, offset: 50 });
+
+    // Словарь переводов
+    const translations = {
+        en: {
+            "title": "AI Systems Engineer | Local AI Pipelines • Full Stack (.NET, Vue, TypeScript)",
+            "location": "Belgrade, Serbia · Remote / Hybrid",
+            "what-i-do-title": "What I do (In simple words)",
+            "explain-llm": "<strong>What are LLMs and AI Agents?</strong> LLMs (Large Language Models like ChatGPT) are 'brains' that understand and generate text. AI Agents are these brains put on autopilot. An agent can read an instruction, make decisions, use tools, and execute tasks automatically — without you doing it manually every day.",
+            "explain-services": "<strong>How I can help your business:</strong> I build these agents to automate your routine. I can set up Telegram or Instagram bots for your customers, integrate payment systems (like YooKassa) so they buy directly in the chat, and automate the delivery of your services. I can also set up secure remote servers or teach you or your team how to use AI tools to save hours of work every day.",
+            "about-title": "About",
+            "about-p1": "AI Systems Engineer with a full-stack background and production experience building local LLM-powered systems. I design, build, and operate autonomous AI pipelines that orchestrate multiple models with zero paid inference costs.",
+            "about-p2": "Strong Python and TypeScript skills, with explicit engineering trade-offs around resource sharing, model interoperability, and fault tolerance. Complemented by 13 years of engineering leadership experience — breaking down complex work, designing architecture, and owning delivery.",
+            "projects-title": "Projects & Case Studies",
+            "proj3-date": "Oct 2026 – Present",
+            "proj3-desc": "Developed a Telegram bot for selling personal VPN subscriptions. The bot provides users with WireGuard keys for secure internet access with a Moscow IP address.",
+            "proj3-li1": "<strong>Infrastructure & Architecture:</strong> Configured and deployed a VPS in Moscow, set up a WireGuard server, and automated the generation of client configuration files.",
+            "proj3-li2": "<strong>Business Value:</strong> Provides users outside Russia with legal access to Russian web services (government portals, banking apps) that restrict access from foreign IPs.",
+            "proj3-li3": "<strong>Integration:</strong> Connected Telegram bot with a payment gateway for instant subscription activation and key delivery.",
+            "proj1-date": "Oct 2026 – Present",
+            "proj1-desc": "Built an end-to-end asynchronous Python bot that handles user state, free numerology funnels, and paid natal chart generation.",
+            "proj1-li1": "<strong>Astronomy Engine:</strong> Calculated precise planetary positions, ASC/MC, and aspects locally using Skyfield. Rendered custom natal wheel images via Pillow ($0 API cost for visuals).",
+            "proj1-li2": "<strong>LLM Orchestration & Guardrails:</strong> Implemented a dual-LLM fallback system (Gemini → Ollama). Built a custom fact-injection pipeline to strictly control hallucinations. Added a secondary LLM call for proofreading.",
+            "proj1-li3": "<strong>Unit Economics:</strong> Achieved ~96% gross margin per generation by minimizing API token usage and optimizing local compute. Integrated YooKassa payment gateway.",
+            "proj2-date": "Sept 2026 – Present",
+            "proj2-desc": "Built and operate a fully local, production-grade AI content pipeline that generates and publishes video content autonomously — no paid inference, no cloud AI costs.",
+            "proj2-li1": "<strong>Orchestration:</strong> Managed multiple local AI models (text, image, video) sharing a single machine with explicit CPU/GPU trade-offs.",
+            "proj2-li2": "<strong>Interoperability:</strong> Built a communication layer connecting independent models not designed to talk to each other.",
+            "proj2-li3": "<strong>Result:</strong> Sustained throughput of 15 Reels/hour, publishing up to 50 Reels/day to Instagram and 50 posts/day to Telegram, fully autonomous."
+        },
+        ru: {
+            "title": "AI Systems Engineer | Локальные AI-пайплайны • Full Stack (.NET, Vue, TypeScript)",
+            "location": "Белград, Сербия · Удаленно / Гибрид",
+            "what-i-do-title": "Чем я могу помочь (простыми словами)",
+            "explain-llm": "<strong>Что такое LLM и AI-агенты?</strong> LLM (например, ChatGPT) — это «мозг», который понимает и генерирует текст. AI-агенты — это тот же мозг, поставленный на автопилот. Агент может читать инструкции, принимать решения, использовать инструменты и выполнять задачи автоматически, без вашего участия.",
+            "explain-services": "<strong>Как я помогаю бизнесу:</strong> Я создаю таких агентов для автоматизации рутины. Я могу настроить ботов в Telegram или Instagram для ваших клиентов, подключить системы оплаты (например, YooKassa), чтобы они покупали прямо в чате, и настроить автоматическую выдачу услуг. Также я могу настроить безопасные удаленные серверы или обучить вас и вашу команду использовать AI-инструменты, чтобы экономить часы работы каждый день.",
+            "about-title": "О себе",
+            "about-p1": "AI Systems Engineer с опытом full-stack разработки и создания production-систем на базе локальных LLM. Я проектирую, создаю и поддерживаю автономные AI-пайплайны, оркестрирующие несколько моделей с нулевыми затратами на внешние API.",
+            "about-p2": "Сильные навыки Python и TypeScript, осознанные инженерные компромиссы в отношении распределения ресурсов, совместимости моделей и отказоустойчивости. Дополняется 13-летним опытом руководства — декомпозиция задач, проектирование архитектуры и ответственность за результат.",
+            "projects-title": "Проекты и кейсы",
+            "proj3-date": "Окт 2026 – Настоящее время",
+            "proj3-desc": "Разработал Telegram-бота для продажи персональных VPN-подписок. Бот выдает пользователям ключи WireGuard для безопасного доступа в интернет с московским IP-адресом.",
+            "proj3-li1": "<strong>Инфраструктура и архитектура:</strong> Настроил и развернул VPS в Москве, установил сервер WireGuard и автоматизировал генерацию конфигурационных файлов для клиентов.",
+            "proj3-li2": "<strong>Ценность для бизнеса:</strong> Предоставляет пользователям за пределами РФ легальный доступ к российским веб-сервисам (госуслуги, банковские приложения), которые ограничивают доступ с зарубежных IP.",
+            "proj3-li3": "<strong>Интеграция:</strong> Подключил Telegram-бота к платежному шлюзу для мгновенной активации подписки и выдачи ключей.",
+            "proj1-date": "Окт 2026 – Настоящее время",
+            "proj1-desc": "Создал асинхронного Python-бота, который обрабатывает состояния пользователей, воронки бесплатной нумерологии и генерацию платных натальных карт.",
+            "proj1-li1": "<strong>Астрономический движок:</strong> Локальный расчет точных позиций планет, ASC/MC и аспектов с помощью Skyfield. Отрисовка кастомных натальных карт через Pillow ($0 затрат на API).",
+            "proj1-li2": "<strong>Оркестрация LLM и Guardrails:</strong> Двойная система fallback (Gemini → Ollama). Кастомный пайплайн внедрения фактов для строгого контроля галлюцинаций. Вторичный вызов LLM для вычитки текста.",
+            "proj1-li3": "<strong>Unit-экономика:</strong> Достигнута маржа ~96% с каждой генерации за счет минимизации токенов и оптимизации локальных вычислений. Интегрирован эквайринг YooKassa.",
+            "proj2-date": "Сент 2026 – Настоящее время",
+            "proj2-desc": "Создал и поддерживаю полностью локальный production-пайплайн для генерации и публикации видеоконтента автономно — без затрат на облачный AI и платные инференсы.",
+            "proj2-li1": "<strong>Оркестрация:</strong> Управление несколькими локальными AI-моделями (текст, изображение, видео) на одной машине с явными компромиссами CPU/GPU.",
+            "proj2-li2": "<strong>Совместимость:</strong> Создан слой связи для моделей, которые не были предназначены для общения друг с другом.",
+            "proj2-li3": "<strong>Результат:</strong> Стабильная пропускная способность 15 Reels/час, публикация до 50 Reels/день в Instagram и 50 постов/день в Telegram, полностью автономно."
+        },
+        sr: {
+            "title": "AI Systems Engineer | Lokalni AI pipeline-ovi • Full Stack (.NET, Vue, TypeScript)",
+            "location": "Beograd, Srbija · Remote / Hibridno",
+            "what-i-do-title": "Čime se bavim (jednostavnim rečima)",
+            "explain-llm": "<strong>Šta su LLM i AI agenti?</strong> LLM (kao ChatGPT) su 'mozgovi' koji razumeju i generišu tekst. AI agenti su ti isti mozgovi stavljeni na autopilot. Agent može da čita instrukcije, donosi odluke, koristi alate i obavlja zadatke automatski — bez da vi to radite ručno svaki dan.",
+            "explain-services": "<strong>Kako mogu da pomognem vašem biznisu:</strong> Pravim ove agente da automatizuju vašu rutinu. Mogu da postavim Telegram ili Instagram botove za vaše klijente, integrišem sisteme plaćanja (poput YooKassa) da kupe direktno u četu, i automatizujem isporuku vaših usluga. Takođe mogu da postavim sigurne udaljene servere ili obučim vas i vaš tim da koristite AI alate kako biste uštedeli sate rada svakog dana.",
+            "about-title": "O meni",
+            "about-p1": "AI Systems Engineer sa full-stack iskustvom i iskustvom u izgradnji production sistema zasnovanih na lokalnim LLM modelima. Dizajniram, gradim i održavam autonomne AI pipeline-ove koji orkestriraju više modela sa nultim troškovima plaćenog inference-a.",
+            "about-p2": "Snažne veštine u Python-u i TypeScript-u, sa eksplicitnim inženjerskim kompromisima oko deljenja resursa, interoperabilnosti modela i tolerancije na greške. Upotpunjeno sa 13 godina iskustva u inženjerskom vođenju — dekompozicija zadataka, dizajn arhitekture i odgovornost za isporuku.",
+            "projects-title": "Projekti i studije slučaja",
+            "proj3-date": "Okt 2026 – Trenutno",
+            "proj3-desc": "Razvio Telegram bota za prodaju ličnih VPN pretplata. Bot daje korisnicima WireGuard ključeve za siguran pristup internetu sa moskovskom IP adresom.",
+            "proj3-li1": "<strong>Infrastruktura i arhitektura:</strong> Konfigurisao i postavio VPS u Moskvi, podesio WireGuard server i automatizovao generisanje konfiguracionih fajlova za klijente.",
+            "proj3-li2": "<strong>Poslovna vrednost:</strong> Pruža korisnicima van Rusije legalan pristup ruskim veb servisima (državni portali, bankarske aplikacije) koji ograničavaju pristup sa stranih IP adresa.",
+            "proj3-li3": "<strong>Integracija:</strong> Povezao Telegram bota sa payment gateway-om za trenutnu aktivaciju pretplate i isporuku ključeva.",
+            "proj1-date": "Okt 2026 – Trenutno",
+            "proj1-desc": "Napravio end-to-end asinhronog Python bota koji upravlja korisničkim stanjem, besplatnim numerološkim levcima i generisanjem plaćenih natalnih karata.",
+            "proj1-li1": "<strong>Astronomski motor:</strong> Lokalno izračunavanje preciznih pozicija planeta, ASC/MC i aspekata pomoću Skyfield-a. Renderovanje prilagođenih natalnih karata putem Pillow-a ($0 trošak API-ja).",
+            "proj1-li2": "<strong>LLM orkestracija i Guardrails:</strong> Dualni LLM fallback sistem (Gemini → Ollama). Prilagođeni pipeline za ubacivanje činjenica radi stroge kontrole halucinacija. Sekundarni LLM poziv za lekturu.",
+            "proj1-li3": "<strong>Unit ekonomija:</strong> Ostvarena bruto marža od ~96% po generaciji minimiziranjem potrošnje tokena i optimizacijom lokalnog računanja. Integrisan YooKassa payment gateway.",
+            "proj2-date": "Sep 2026 – Trenutno",
+            "proj2-desc": "Napravio i održavam potpuno lokalni, production AI pipeline koji autonomno generiše i objavljuje video sadržaj — bez troškova cloud AI-ja i plaćenog inference-a.",
+            "proj2-li1": "<strong>Orkestracija:</strong> Upravljanje sa više lokalnih AI modela (tekst, slika, video) na jednoj mašini sa eksplicitnim CPU/GPU kompromisima.",
+            "proj2-li2": "<strong>Interoperabilnost:</strong> Izgrađen komunikacioni sloj koji povezuje nezavisne modele koji nisu dizajnirani da komuniciraju.",
+            "proj2-li3": "<strong>Rezultat:</strong> Stabilan protok od 15 Reels/sat, objavljivanje do 50 Reels/dan na Instagramu i 50 postova/dan na Telegramu, potpuno autonomno."
+        }
+    };
+
+    function setLang(lang) {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + lang).classList.add('active');
+        document.documentElement.lang = lang;
+    }
+
+    // --- АНИМАЦИЯ ФОНА (ЛЕТАЮЩИЕ СИМВОЛЫ) ---
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    const symbols = ['{', '}', '<', '>', '()', '=>', '[]', 'λ', 'AI', 'LLM', '#', '01', '/>', ';', 'const', 'git', 'api', '***'];
+    let particles = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 16 + 10;
+            this.speedX = Math.random() * 1.5 - 0.75; 
+            this.speedY = Math.random() * 1.5 - 0.75;
+            this.text = symbols[Math.floor(Math.random() * symbols.length)];
+            this.angle = Math.random() * 360;
+            this.spin = Math.random() * 1 - 0.5;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.angle += this.spin;
+
+            if (this.x > canvas.width + 50) this.x = -50;
+            if (this.x < -50) this.x = canvas.width + 50;
+            if (this.y > canvas.height + 50) this.y = -50;
+            if (this.y < -50) this.y = canvas.height + 50;
+        }
+
+        draw() {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.angle * Math.PI / 180);
+            ctx.font = `bold ${this.size}px monospace`;
+            ctx.fillStyle = '#007bff'; 
+            ctx.fillText(this.text, 0, 0);
+            ctx.restore();
+        }
+    }
+
+    for (let i = 0; i < 60; i++) {
+        particles.push(new Particle());
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // --- ВЫЗОВ РУССКОГО ЯЗЫКА ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ---
+    setLang('ru');
+
+</script>
+
+</body>
+</html>
